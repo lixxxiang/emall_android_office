@@ -19,7 +19,6 @@ class MainDelegate : EmallDelegate() {
     }
 
     fun testHttp(){
-        println("dddddd" + utils()._thisMethodName)
         RestClient()
                 .builder()
                 .url("http://news.baidu.com")

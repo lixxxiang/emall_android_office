@@ -1,20 +1,13 @@
 package com.example.emall_core.net
 
-import android.content.Context
-import com.example.emall_core.net.callback.IError
-import com.example.emall_core.net.callback.IFailure
-import com.example.emall_core.net.callback.IRequest
-import com.example.emall_core.net.callback.ISuccess
 import com.example.emall_core.net.HttpMethod.GET
 import com.example.emall_core.net.HttpMethod.POST
 import com.example.emall_core.net.HttpMethod.PUT
 import com.example.emall_core.net.HttpMethod.DELETE
-import okhttp3.MediaType
-import okhttp3.MultipartBody
+import com.example.emall_core.net.callback.*
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
-import java.io.File
 import java.util.*
 
 /**
@@ -48,11 +41,15 @@ class RestClient constructor() {
     }
 
     fun builder(): RestClientBuilder {
+        println("---builder")
+
         return RestClientBuilder()
     }
 
     fun request(method: HttpMethod) {
-        val service: RestService = RestCreator().getRestService()!!
+
+//        val service: RestService = RestCreator().getRestService()
+        val service = RestCreator().getRestService()
         var call: Call<String>? = null
 
         if (REQUEST != null) {
@@ -60,10 +57,10 @@ class RestClient constructor() {
         }
 
         when (method) {
-            GET -> call = service[URL, PARAMS]
-            POST -> call = service.post(URL, PARAMS)
-            PUT -> call = service.put(URL, PARAMS)
-            DELETE -> call = service.delete(URL, PARAMS)
+            GET -> call = service!!.get(URL, PARAMS)
+            POST -> call = service!!.post(URL, PARAMS)
+            PUT -> call = service!!.put(URL, PARAMS)
+            DELETE -> call = service!!.delete(URL, PARAMS)
             else -> {
 
             }
@@ -84,6 +81,8 @@ class RestClient constructor() {
     }
 
     fun get() {
+        println("---Hee")
+
         request(HttpMethod.GET)
     }
 

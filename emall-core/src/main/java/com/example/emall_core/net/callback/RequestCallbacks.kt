@@ -1,11 +1,4 @@
-package com.example.emall_core.net
-
-import com.example.emall_core.app.ConfigKeys
-import com.example.emall_core.app.Emall
-import com.example.emall_core.net.callback.IError
-import com.example.emall_core.net.callback.IRequest
-import com.example.emall_core.net.callback.ISuccess
-import com.example.emall_core.net.callback.IFailure
+package com.example.emall_core.net.callback
 
 import retrofit2.Call
 import retrofit2.Callback

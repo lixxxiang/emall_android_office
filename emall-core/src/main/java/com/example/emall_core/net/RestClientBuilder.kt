@@ -20,6 +20,9 @@ class RestClientBuilder {
     lateinit var mIError: IError
     lateinit var mBody: RequestBody
 
+
+
+
     fun url(url: String): RestClientBuilder {
         this.mUrl = url
         return this
@@ -62,6 +65,8 @@ class RestClientBuilder {
     }
 
     fun build(): RestClient {
+        println("地方的防辐" + mUrl)
+//        println("地方的防辐射" + mIRequest)
         return RestClient(mUrl, PARAMS,
                 mIRequest, mISuccess, mIFailure,
                 mIError, mBody)

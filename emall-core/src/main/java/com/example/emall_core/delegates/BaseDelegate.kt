@@ -14,15 +14,12 @@ abstract class BaseDelegate : SwipeBackFragment(){
     abstract fun initial()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var rootView : View? = null
-        println("here")
         when {
             setLayout() is Int -> {
-                println("-->thefuck1")
                 rootView = inflater!!.inflate(setLayout() as Int, container, false)
             }
             setLayout() is View -> {
                 rootView = setLayout() as View
-                println("-->thefuck2")
 
             }
             else -> println("the fuck")
