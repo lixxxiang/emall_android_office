@@ -3,7 +3,6 @@ package com.example.lixiang.emall_android_offical_2
 import android.app.Application
 import com.example.emall.ec.icon.FontEcModule
 import com.example.emall_core.app.Emall
-import com.joanzapata.iconify.fonts.FontAwesomeIcons
 import com.joanzapata.iconify.fonts.FontAwesomeModule
 
 /**
@@ -15,7 +14,7 @@ class EmallApplication : Application() {
         Emall().init(this)
                 .withIcon(FontAwesomeModule())
                 .withIcon(FontEcModule())
-                .withApiHost("")
+                .withApiHost("http://127.0.0.1/")
                 .configure()
     }
 }

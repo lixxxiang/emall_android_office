@@ -3,6 +3,7 @@ package com.example.lixiang.emall_android_offical_2
 import android.widget.Toast
 import com.example.emall_core.delegates.EmallDelegate
 import com.example.emall_core.net.RestClient
+import com.example.emall_core.net.callback.IFailure
 import com.example.emall_core.net.callback.ISuccess
 
 
@@ -21,6 +22,7 @@ class MainDelegate : EmallDelegate() {
     fun testHttp(){
         RestClient()
                 .builder()
+                .params("","")
                 .url("http://news.baidu.com")
                 .success(
                         object : ISuccess {
@@ -28,8 +30,17 @@ class MainDelegate : EmallDelegate() {
                                 Toast.makeText(activity, response, Toast.LENGTH_LONG).show()
                             }
                         })
+                .failure(
+                        object :IFailure{
+                            override fun onFailure() {
+
+                            }
+
+                        })
+
                 .build()
                 .get()
+
 
     }
 }

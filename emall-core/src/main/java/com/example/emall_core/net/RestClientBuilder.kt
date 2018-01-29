@@ -9,16 +9,17 @@ import okhttp3.RequestBody
 import java.util.*
 
 /**
- * Created by lixiang on 2018/1/26.
+ * Created by lixiang on 2018/1/29.
  */
+
 class RestClientBuilder {
-    lateinit var mUrl: String
-    var PARAMS: WeakHashMap<String, Any> = RestCreator().getParams()!!
-    lateinit var mIRequest: IRequest
-    lateinit var mISuccess: ISuccess
-    lateinit var mIFailure: IFailure
-    lateinit var mIError: IError
-    lateinit var mBody: RequestBody
+    var mUrl: String? = ""
+    var PARAMS: WeakHashMap<String, Any>? = RestCreator.params
+    var mIRequest: IRequest? = null
+    var mISuccess: ISuccess? = null
+    var mIFailure: IFailure ? = null
+    var mIError: IError? = null
+    var mBody: RequestBody? = null
 
 
 
@@ -35,7 +36,7 @@ class RestClientBuilder {
 
     fun params(key: String, value: Any): RestClientBuilder {
         PARAMS = WeakHashMap<String, Any>()
-        PARAMS[key] = value
+        PARAMS!![key] = value
         return this
     }
 
@@ -65,15 +66,9 @@ class RestClientBuilder {
     }
 
     fun build(): RestClient {
-        println("地方的防辐" + mUrl)
-//        println("地方的防辐射" + mIRequest)
         return RestClient(mUrl, PARAMS,
                 mIRequest, mISuccess, mIFailure,
                 mIError, mBody)
     }
 
-//    companion object {
-//
-//        private val PARAMS = RestCreator.getParams()
-//    }
 }

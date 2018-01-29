@@ -1,8 +1,8 @@
 package com.example.emall_core.app
 
-import java.util.*
 import com.joanzapata.iconify.IconFontDescriptor
 import com.joanzapata.iconify.Iconify
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -36,7 +36,9 @@ class Configurator {
     }
 
     fun withApiHost(host: String): Configurator {
-        EMALL_CONFIGS.put(ConfigKeys.API_HOST.name, host)
+        println("host ++ " +host)
+//        EMALL_CONFIGS[ConfigKeys.API_HOST.toString()] = host
+        EMALL_CONFIGS.put(ConfigKeys.API_HOST.toString(), host)
         return this
     }
 
