@@ -1,9 +1,12 @@
 package com.example.emall_core.net
 
+import android.content.Context
+import android.widget.ProgressBar
 import com.example.emall_core.net.callback.IError
 import com.example.emall_core.net.callback.IFailure
 import com.example.emall_core.net.callback.IRequest
 import com.example.emall_core.net.callback.ISuccess
+import com.example.emall_core.ui.loader.LoaderStyle
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import java.util.*
@@ -17,11 +20,12 @@ class RestClientBuilder {
     var PARAMS: WeakHashMap<String, Any>? = RestCreator.params
     var mIRequest: IRequest? = null
     var mISuccess: ISuccess? = null
-    var mIFailure: IFailure ? = null
+    var mIFailure: IFailure? = null
     var mIError: IError? = null
     var mBody: RequestBody? = null
-
-
+    var mLoaderStyle: LoaderStyle? = null
+    var mContext: Context? = null
+    var mProgressbar:ProgressBar? = null
 
 
     fun url(url: String): RestClientBuilder {
@@ -65,10 +69,28 @@ class RestClientBuilder {
         return this
     }
 
+    fun progressbar(context: Context): RestClientBuilder {
+//        this.mProgressbar = ProgressBar()
+        this.mContext = context
+        return this
+    }
+
+    fun loader(context: Context, style: LoaderStyle): RestClientBuilder {
+        this.mLoaderStyle = style
+        this.mContext = context
+        return this
+    }
+
+    fun loader(context: Context): RestClientBuilder {
+        this.mContext = context
+        this.mLoaderStyle = LoaderStyle.BallClipRotatePulseIndicator
+        return this
+    }
+
     fun build(): RestClient {
         return RestClient(mUrl, PARAMS,
                 mIRequest, mISuccess, mIFailure,
-                mIError, mBody)
+                mIError, mBody, mLoaderStyle, mContext, mProgressbar)
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.lixiang.emall_android_offical_2
 
-import android.widget.Toast
 import com.example.emall_core.delegates.EmallDelegate
 import com.example.emall_core.net.RestClient
 import com.example.emall_core.net.callback.IFailure
@@ -27,7 +26,7 @@ class MainDelegate : EmallDelegate() {
                 .success(
                         object : ISuccess {
                             override fun onSuccess(response: String) {
-                                Toast.makeText(activity, response, Toast.LENGTH_LONG).show()
+//                                Toast.makeText(activity, response, Toast.LENGTH_LONG).show()
                             }
                         })
                 .failure(
@@ -37,9 +36,11 @@ class MainDelegate : EmallDelegate() {
                             }
 
                         })
-
+//                .loader(context, LoaderStyle.BallClipRotateIndicator)
+                .progressbar(context)
                 .build()
                 .get()
+
 
 
     }

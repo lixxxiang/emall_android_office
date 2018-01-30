@@ -1,15 +1,21 @@
 package com.example.emall_core.net
 
+import android.content.Context
+import android.widget.ProgressBar
 import com.example.emall_core.net.HttpMethod.*
 import com.example.emall_core.net.callback.*
+import com.example.emall_core.ui.loader.EmallLoader
+import com.example.emall_core.ui.loader.LoaderStyle
+import com.example.emall_core.ui.progressbar.EmallProgressbar
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import java.util.*
+
 /**
  * Created by lixiang on 2018/1/29.
  */
-class RestClient(){
+class RestClient() {
     var URL: String? = ""
     val PARAMS: WeakHashMap<String, Any>? = RestCreator.params
     var REQUEST: IRequest? = null
@@ -17,6 +23,9 @@ class RestClient(){
     var FAILURE: IFailure? = null
     var ERROR: IError? = null
     var BODY: RequestBody? = null
+    var LOADERSTYLE: LoaderStyle? = null
+    var CONTEXT: Context? = null
+    var PROGRESSBAR : ProgressBar? = null
 
     constructor(url: String?,
                 params: Map<String, Any>?,
@@ -24,7 +33,10 @@ class RestClient(){
                 success: ISuccess?,
                 failure: IFailure?,
                 error: IError?,
-                body: RequestBody?
+                body: RequestBody?,
+                loaderStyle: LoaderStyle?,
+                context: Context?,
+                progressbar:ProgressBar?
     ) : this() {
         this.URL = url!!
         if (params != null) {
@@ -35,6 +47,9 @@ class RestClient(){
         this.FAILURE = failure
         this.ERROR = error
         this.BODY = body
+        this.LOADERSTYLE = loaderStyle
+        this.CONTEXT = context
+        this.PROGRESSBAR = progressbar
     }
 
     fun builder(): RestClientBuilder {
@@ -49,6 +64,11 @@ class RestClient(){
             REQUEST!!.onRequestStart()
         }
 
+        if (LOADERSTYLE!= null){
+            EmallLoader().showLoading(CONTEXT!!, LOADERSTYLE.toString())
+        }
+//        ProgressbarCreator().creator(CONTEXT!!)
+        EmallProgressbar().showProgressbar(CONTEXT!!)
         when (method) {
             GET -> call = service.get(URL!!, PARAMS!!)
             POST -> call = service.post(URL!!, PARAMS!!)
@@ -69,7 +89,8 @@ class RestClient(){
                 REQUEST,
                 SUCCESS,
                 FAILURE,
-                ERROR
+                ERROR,
+                LOADERSTYLE
         )
     }
 
