@@ -7,10 +7,14 @@ import com.example.emall_core.net.callback.*
 import com.example.emall_core.ui.loader.EmallLoader
 import com.example.emall_core.ui.loader.LoaderStyle
 import com.example.emall_core.ui.progressbar.EmallProgressbar
+import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
+import java.io.File
 import java.util.*
+
 
 /**
  * Created by lixiang on 2018/1/29.
@@ -19,16 +23,24 @@ class RestClient() {
     var URL: String? = ""
     val PARAMS: WeakHashMap<String, Any>? = RestCreator.params
     var REQUEST: IRequest? = null
+    var DOWNLOAD_DIR: String? = null
+    var EXTENSION: String? = null
+    var NAME: String? = null
     var SUCCESS: ISuccess? = null
     var FAILURE: IFailure? = null
     var ERROR: IError? = null
     var BODY: RequestBody? = null
     var LOADERSTYLE: LoaderStyle? = null
     var CONTEXT: Context? = null
-    var PROGRESSBAR : ProgressBar? = null
+    var PROGRESSBAR: ProgressBar? = null
+    var FILE: File? = null
+
 
     constructor(url: String?,
                 params: Map<String, Any>?,
+                downloadDir: String?,
+                extension: String?,
+                name : String?,
                 request: IRequest?,
                 success: ISuccess?,
                 failure: IFailure?,
@@ -36,7 +48,8 @@ class RestClient() {
                 body: RequestBody?,
                 loaderStyle: LoaderStyle?,
                 context: Context?,
-                progressbar:ProgressBar?
+                progressbar: ProgressBar?,
+                file:File?
     ) : this() {
         this.URL = url!!
         if (params != null) {
@@ -50,6 +63,10 @@ class RestClient() {
         this.LOADERSTYLE = loaderStyle
         this.CONTEXT = context
         this.PROGRESSBAR = progressbar
+        this.FILE = file
+        this.DOWNLOAD_DIR = downloadDir
+        this.EXTENSION = extension
+        this.NAME = name
     }
 
     fun builder(): RestClientBuilder {
@@ -64,16 +81,26 @@ class RestClient() {
             REQUEST!!.onRequestStart()
         }
 
-        if (LOADERSTYLE!= null){
+        if (LOADERSTYLE != null) {
             EmallLoader().showLoading(CONTEXT!!, LOADERSTYLE.toString())
         }
 //        ProgressbarCreator().creator(CONTEXT!!)
         EmallProgressbar().showProgressbar(CONTEXT!!)
+
         when (method) {
             GET -> call = service.get(URL!!, PARAMS!!)
             POST -> call = service.post(URL!!, PARAMS!!)
+            POST_RAW -> call = service.postRaw(URL!!, BODY!!)
             PUT -> call = service.put(URL!!, PARAMS!!)
+            PUT_RAW -> call = service.putRaw(URL!!, BODY!!)
             DELETE -> call = service.delete(URL!!, PARAMS!!)
+            UPLOAD -> {
+                val requestBody = RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE!!)
+                val body = MultipartBody.Part.createFormData("file", FILE!!.name, requestBody)
+                call = service.upload(URL!!, body)
+            }
+
+
             else -> {
 
             }
@@ -108,6 +135,14 @@ class RestClient() {
 
     fun delete() {
         request(HttpMethod.DELETE)
+    }
+
+    fun upload(){
+        request(UPLOAD)
+    }
+
+    fun download(){
+
     }
 
 }

@@ -9,6 +9,7 @@ import com.example.emall_core.net.callback.ISuccess
 import com.example.emall_core.ui.loader.LoaderStyle
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import java.io.File
 import java.util.*
 
 /**
@@ -25,8 +26,11 @@ class RestClientBuilder {
     var mBody: RequestBody? = null
     var mLoaderStyle: LoaderStyle? = null
     var mContext: Context? = null
-    var mProgressbar:ProgressBar? = null
-
+    var mProgressbar: ProgressBar? = null
+    var mFile: File? = null
+    var mDownloadDir: String? = null
+    var mExtension: String? = null
+    var mName: String? = null
 
     fun url(url: String): RestClientBuilder {
         this.mUrl = url
@@ -41,6 +45,26 @@ class RestClientBuilder {
     fun params(key: String, value: Any): RestClientBuilder {
         PARAMS = WeakHashMap<String, Any>()
         PARAMS!![key] = value
+        return this
+    }
+
+    fun file(file: String): RestClientBuilder {
+        this.mFile = File(file)
+        return this
+    }
+
+    fun name(name: String): RestClientBuilder {
+        this.mName = name
+        return this
+    }
+
+    fun dir(dir: String): RestClientBuilder {
+        this.mDownloadDir = dir
+        return this
+    }
+
+    fun extension(extension: String): RestClientBuilder {
+        this.mExtension = extension
         return this
     }
 
@@ -88,9 +112,9 @@ class RestClientBuilder {
     }
 
     fun build(): RestClient {
-        return RestClient(mUrl, PARAMS,
+        return RestClient(mUrl, PARAMS, mDownloadDir, mExtension, mName,
                 mIRequest, mISuccess, mIFailure,
-                mIError, mBody, mLoaderStyle, mContext, mProgressbar)
+                mIError, mBody, mLoaderStyle, mContext, mProgressbar, mFile)
     }
 
 }
